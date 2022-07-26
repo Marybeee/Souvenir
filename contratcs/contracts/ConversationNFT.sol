@@ -15,12 +15,14 @@ contract ConversationNFT is ERC721URIStorage {
     }
 
 
-    function awardSouvenir(address _humanWallet, string memory tokenURI) internal {
+    function awardSouvenir(address _humanWallet, string memory tokenURI) external returns (uint) {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
         _mint(_humanWallet, newItemId);
+        // set uri for a Conversation
         _setTokenURI(newItemId, tokenURI);
+        return (newItemId);
     }
 
 }

@@ -6,5 +6,5 @@ interface IConversationNFT {
     function awardSouvenir(
         address _humanWallet, 
         string calldata tokenURI
-    ) external;
+    ) external returns (uint);
 }
