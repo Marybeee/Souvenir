@@ -16,7 +16,9 @@ contract ConversationSouvenirNFTHandler is Conversations {
     address private conversationNFTAddress; 
 
     // map the converstions and NFTs to make sure a NFT just get minted once
-    mapping (uint => uint8) mintedConversations;
+    mapping (uint => uint8) public mintedConversations;
+    // map nftId to each wallet
+    mapping  (uint => address) public mintedNftPersonWallet;
 
     // constructor with setting the correct address of the contract we are accessing when minting
     constructor(address _conversationNFTAddress) {   
@@ -40,10 +42,12 @@ contract ConversationSouvenirNFTHandler is Conversations {
     }
 
     // function to call the mint from the IConversationNFT interface with return value of the NFT id
-    function singleMint(address _humanWallet, string memory _tokenURI) internal returns (uint) {
+    function singleMint(address _humanWallet, string memory _tokenURI) private returns (uint) {
         uint nftId;
         // sets the nftid which is given by minting
         nftId = IConversationNFT(conversationNFTAddress).awardSouvenir(_humanWallet, _tokenURI);
+        // set mapping of minted NFT to wallet
+        mintedNftPersonWallet[nftId] = _humanWallet;
         return (nftId);
     }
 
