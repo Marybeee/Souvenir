@@ -30,4 +30,6 @@ contract ConversationNFT is ERC721URIStorage {
         return (newItemId);
     }
 
+    //function checkBalanceOf(address _humanWallet) public view returns ()
+
 }
