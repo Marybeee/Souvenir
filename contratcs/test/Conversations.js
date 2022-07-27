@@ -48,6 +48,7 @@ describe("Conversations", function (){
             const stringInBytes = utils.formatBytes32String("Conversation 1")
             await hardhatConversations.registerConversation(stringInBytes, person.address, person2.address);
             const conversations = await (hardhatConversations.connect(admin).conversations(0));
+
             expect(1).to.eq(conversations[0]);
             expect(stringInBytes).to.eql(conversations[1]);
             expect(person.address).to.eql(conversations[2]);
