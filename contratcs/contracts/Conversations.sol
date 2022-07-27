@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/utils/Counters.sol";
+import './Humans.sol';
 
 
-contract Conversations {
+contract Conversations is Humans {
     
     // using counters to ensure only incrementing by 1
     using Counters for Counters.Counter;
@@ -25,7 +26,8 @@ contract Conversations {
     Conversation[] public conversations;
 
     // Function to register a new Conversation based on input variables.
-    function registerConversation(bytes32 _conversationName, address _personAWallet, address _personBWallet) external  {
+    function registerConversation(bytes32 _conversationName, address _personAWallet, address _personBWallet) external
+    humansNotRegistered(_personAWallet, _personBWallet)  {
         // increment the conversation counter
         conversationCounter.increment();
         // set the new conversation with its specific values

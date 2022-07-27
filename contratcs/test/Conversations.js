@@ -40,6 +40,11 @@ describe("Conversations", function (){
     // Test case for succesful register an conversation
     describe("Test for register a conversation", function(){
         it("Tests if the conversation array is set correctly after registration", async function(){
+            const stringInBytesHuman1 = utils.formatBytes32String("Human 1")
+            await hardhatConversations.registerHuman(stringInBytesHuman1, person.address);
+            const stringInBytesHuman2 = utils.formatBytes32String("Human 2")
+            await hardhatConversations.registerHuman(stringInBytesHuman2, person2.address);
+
             const stringInBytes = utils.formatBytes32String("Conversation 1")
             await hardhatConversations.registerConversation(stringInBytes, person.address, person2.address);
             const conversations = await (hardhatConversations.connect(admin).conversations(0));
@@ -50,11 +55,25 @@ describe("Conversations", function (){
         });
        
          it("Tests that the emitted event is correct", async function(){
+            const stringInBytesHuman1 = utils.formatBytes32String("Human 1")
+            await hardhatConversations.registerHuman(stringInBytesHuman1, person.address);
+            const stringInBytesHuman2 = utils.formatBytes32String("Human 2")
+            await hardhatConversations.registerHuman(stringInBytesHuman2, person2.address);
+
              const stringInBytes = utils.formatBytes32String("Conversation");
 
              await expect(hardhatConversations.registerConversation(stringInBytes, person.address, person2.address))
                  .to.emit(hardhatConversations, "NewConversationRegistered")
                  .withArgs(1, stringInBytes, person.address, person2.address);
         });
+
+        it("Tests that just non registered Humans are not able to have a conversation", async function(){
+            const stringInBytesHuman1 = utils.formatBytes32String("Human 1")
+            await hardhatConversations.registerHuman(stringInBytesHuman1, person.address);
+
+            const stringInBytes = utils.formatBytes32String("Conversation 1")
+            await expect (hardhatConversations.registerConversation(stringInBytes, person.address, person2.address)).to.be.reverted;
+
+        })
     });
 });

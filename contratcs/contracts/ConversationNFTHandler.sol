@@ -27,11 +27,10 @@ contract ConversationSouvenirNFTHandler is Conversations {
     }
 
     // function to mint the NFTs to the two wallet adresses
-    function mintConversationSouvenir (uint _conversationId, address _personAWallet, address _personBWallet, string memory tokenURI) external {
+    function mintConversationSouvenir (uint _conversationId, address _personAWallet, address _personBWallet, string memory tokenURI) external
+    humansNotRegistered(_personAWallet, _personBWallet)  {
         // require no NFT is minted for the specific conversation
         require(mintedConversations[_conversationId] == 0, "Can't mint twice");
-        // function nFTToHumans require personA or personB is calling it
-        // require only human addresses allowed to mint
         uint _nftIdA;
         uint _nftIdB;
         _nftIdA = singleMint(_personAWallet, tokenURI);
