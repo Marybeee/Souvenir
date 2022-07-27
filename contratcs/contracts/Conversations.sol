@@ -11,7 +11,7 @@ contract Conversations {
     Counters.Counter private conversationCounter;
     
     // Event for the succesful registration of a new Conversastion.
-    event NewConversationRegistered (Conversation _newConversation);
+    event NewConversationRegistered (uint256 indexed conversationId, bytes32 indexed conversationName, address indexed personAWallet, address personBWallet);
 
     // struct of the Conversation with sepcific information needed to mint 
     struct Conversation {
@@ -38,7 +38,7 @@ contract Conversations {
         // add the conversation to the conversations array
         conversations.push(_newConversation);
         // emit the new Conversation registered
-        emit NewConversationRegistered (_newConversation);
+        emit NewConversationRegistered (conversationCounter._value, _conversationName, _personAWallet, _personBWallet);
     }
 
 }
