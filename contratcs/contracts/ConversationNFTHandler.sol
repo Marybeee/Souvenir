@@ -6,7 +6,7 @@ import './Conversations.sol';
 import './IConversationNFT.sol';
 
 // contract to handle the mint of NFTs based on Conversations
-contract ConversationSouvenirNFTHandler is Conversations {
+contract ConversationNFTHandler is Conversations {
     
     // event for succesful mint of two NFTs for each human 
     //!!! could probably be optimized -> decide if 2 Events are better or using a struct
