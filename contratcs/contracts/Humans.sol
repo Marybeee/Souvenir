@@ -13,7 +13,7 @@ contract Humans is Ownable {
     Counters.Counter private _humanCounter;
 
     // event for succesful registration of a human
-    event NewHumanRegistered (Human _human);
+    event NewHumanRegistered (uint indexed humanId, bytes32 indexed name, address indexed humandWallet);
 
     // struct of the Human with sepcific information of the human
     struct Human {
@@ -21,7 +21,7 @@ contract Humans is Ownable {
         bytes32 name;
         address humanWallet;
     }
-
+    
     // array of all the registered humans
     Human[] public humans;
 
@@ -45,6 +45,6 @@ contract Humans is Ownable {
         // map the new registeried human by its counter to its wallet address
         humandWalletToHumanId[_humanWallet] = _humanCounter._value;
         // emit the new human registered
-        emit NewHumanRegistered (_newHuman);
+        emit NewHumanRegistered (_humanCounter._value, _name, _humanWallet);
     }
 }
