@@ -46,9 +46,56 @@ describe("ConversationNFTHandler", function (){
     });
 
     describe("Checking the mintConversationSouvenir function", function(){
-        it("Should mint into the correct wallet addresses");
-        it("Should revert if the one of the wallet addresses is not registered");
-        it("Should revert if the conversation already got minted");
-        it("Should emit an event after succesful mint");
+        it("Should mint into the correct wallet addresses", async function(){
+            const stringInBytes = utils.formatBytes32String("Human x")
+            await hardhatConversationNFTHandler.registerHuman(stringInBytes, person.address);
+            await hardhatConversationNFTHandler.registerHuman(stringInBytes, person2.address);
+
+            const stringInBytesCon = utils.formatBytes32String("Conversation 1")
+            await hardhatConversationNFTHandler.registerConversation(stringInBytesCon, person.address, person2.address);
+
+            const tokenURI = "ipfs:";
+            await hardhatConversationNFTHandler.mintConversationSouvenir(1,person.address, person2.address,tokenURI);
+
+            expect(await hardhatConversationNFTHandler.balanceOf(person.address)).to.equal(1);
+            expect(await hardhatConversationNFTHandler.ownerOf(1)).to.equal(person.address);
+            expect(await hardhatConversationNFTHandler.tokenURI(1)).to.equal(tokenURI);
+
+            expect(await hardhatConversationNFTHandler.balanceOf(person2.address)).to.equal(1);
+            expect(await hardhatConversationNFTHandler.ownerOf(2)).to.equal(person2.address);
+            expect(await hardhatConversationNFTHandler.tokenURI(2)).to.equal(tokenURI);
+        });
+        it("Should revert if the one of the wallet addresses is not registered", async function(){
+            const tokenURI = "ipfs:";
+            await expect(hardhatConversationNFTHandler.mintConversationSouvenir(1,person.address, person2.address,tokenURI)).to.be.revertedWith("One Human not registered");
+        }); 
+
+        it("Should revert if the conversation already got minted", async function(){
+            const stringInBytes = utils.formatBytes32String("Human x")
+            await hardhatConversationNFTHandler.registerHuman(stringInBytes, person.address);
+            await hardhatConversationNFTHandler.registerHuman(stringInBytes, person2.address);
+
+            const stringInBytesCon = utils.formatBytes32String("Conversation 1")
+            await hardhatConversationNFTHandler.registerConversation(stringInBytesCon, person.address, person2.address);
+
+            const tokenURI = "ipfs:";
+            await hardhatConversationNFTHandler.mintConversationSouvenir(1,person.address, person2.address,tokenURI);
+
+            await expect(hardhatConversationNFTHandler.mintConversationSouvenir(1,person.address, person2.address,tokenURI))
+            .to.be.revertedWith("Can't mint twice");
+        });
+        it("Should emit an event after succesful mint", async function(){
+            const stringInBytes = utils.formatBytes32String("Human x")
+            await hardhatConversationNFTHandler.registerHuman(stringInBytes, person.address);
+            await hardhatConversationNFTHandler.registerHuman(stringInBytes, person2.address);
+
+            const stringInBytesCon = utils.formatBytes32String("Conversation 1")
+            await hardhatConversationNFTHandler.registerConversation(stringInBytesCon, person.address, person2.address);
+
+            const tokenURI = "ipfs:";
+            await expect(hardhatConversationNFTHandler.mintConversationSouvenir(1,person.address, person2.address,tokenURI))
+                .to.emit(hardhatConversationNFTHandler, "ConversationNFTsMinted")
+                .withArgs(person.address, person2.address, 1, 1, 2);
+        });
     })
 });
