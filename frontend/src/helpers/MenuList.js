@@ -4,7 +4,6 @@ import third from "../assets/thirdimage.png";
 import fourth from "../assets/fourthimage.png";
 import fifth from "../assets/fifthimage.png";
 import sixth from "../assets/sixthimage.png";
-
 export const MenuList = [
   {
     name: "26 July, 2022",
