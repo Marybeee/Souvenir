@@ -16,7 +16,7 @@
 }
 
 .navbar .leftSide img {
-    width: 70px;
+    width: 55px;
 }
 
 .navbar .rightSide {
@@ -25,6 +25,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+}
+
+.navbar .rightSide .Link {
+    height: fit-content;
+    display: block;
 
 }
 

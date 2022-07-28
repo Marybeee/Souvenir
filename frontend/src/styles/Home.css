@@ -20,9 +20,10 @@
     justify-content: center;
     align-items: center;
     font-size: 90px;
-    height: 60px;
+    height: 150px;
     font-weight: 50;
     color: black;
+
 }
 
 .headerContainer p {
